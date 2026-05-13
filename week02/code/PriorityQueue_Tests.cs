@@ -6,24 +6,142 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 public class PriorityQueueTests
 {
     [TestMethod]
-    // Scenario: 
-    // Expected Result: 
+    // Scenario: Check the correct operation of the function Enqueue and Dequeue, by whating the following result: Sue, Tim, Bob and run until the queue is empty
+    // Expected Result: Sue, Tim, Bob
     // Defect(s) Found: 
     public void TestPriorityQueue_1()
     {
+        var bob = new PriorityItem("Bob", 1);
+        var tim = new PriorityItem("Tim", 2);
+        var sue = new PriorityItem("Sue", 3);
+
         var priorityQueue = new PriorityQueue();
-        Assert.Fail("Implement the test case and then remove this.");
+        priorityQueue.Enqueue(bob.Value, bob.Priority);
+        priorityQueue.Enqueue(tim.Value, tim.Priority);
+        priorityQueue.Enqueue(sue.Value, sue.Priority);
+
+        PriorityItem[] expectedResult = [sue, tim, bob];
+
+        int i = 0;
+        while (priorityQueue.Length > 0)
+        {
+            if (i >= expectedResult.Length)
+            {
+                Assert.Fail("Queue should have ran out of items by now.");
+            }
+
+            var item = priorityQueue.Dequeue();
+            Assert.AreEqual(expectedResult[i].Value, item);
+            i++;
+        }
     }
 
     [TestMethod]
-    // Scenario: 
-    // Expected Result: 
+    // Scenario: Check the correct operation of the function Dequeue after adding a new item inmidel fo the realization of the function 
+    // result: Sue, Joe, Tim, Bob and run until the queue is empty
+    // Expected Result: Sue, Joe, Tim, Bob
     // Defect(s) Found: 
     public void TestPriorityQueue_2()
     {
+        var bob = new PriorityItem("Bob", 1);
+        var tim = new PriorityItem("Tim", 2);
+        var sue = new PriorityItem("Sue", 3);
+        var joe = new PriorityItem("Joe", 3);
+
         var priorityQueue = new PriorityQueue();
-        Assert.Fail("Implement the test case and then remove this.");
+        priorityQueue.Enqueue(bob.Value, bob.Priority);
+        priorityQueue.Enqueue(tim.Value, tim.Priority);
+        priorityQueue.Enqueue(sue.Value, sue.Priority);
+
+        PriorityItem[] expectedResult = [sue, joe, tim, bob];
+
+        int i = 0;
+        for (; i < 1; i++)
+        {
+            var item = priorityQueue.Dequeue();
+            Assert.AreEqual(expectedResult[i].Value, item);
+        }
+
+        priorityQueue.Enqueue(joe.Value, joe.Priority);
+
+        while (priorityQueue.Length > 0)
+        {
+            if (i >= expectedResult.Length)
+            {
+                Assert.Fail("Queue should have ran out of items by now.");
+            }
+
+            var item = priorityQueue.Dequeue();
+            Assert.AreEqual(expectedResult[i].Value, item);
+            i++;
+        }
     }
 
-    // Add more test cases as needed below.
+    [TestMethod]
+    // Scenario: Check the correct operation of the function Dequeue wen ther more items whit the same priority value, by whating the following 
+    // result: Sue, Lia, Tim, Ana, Bob, Joe and run until the queue is empty
+    // Expected Result: Sue, Lia, Tim, Ana, Bob, Joe
+    // Defect(s) Found: 
+    public void TestPriorityQueue_3()
+    {
+        var bob = new PriorityItem("Bob", 1);
+        var tim = new PriorityItem("Tim", 2);
+        var sue = new PriorityItem("Sue", 3);
+        var joe = new PriorityItem("Joe", 1);
+        var ana = new PriorityItem("Ana", 2);
+        var lia = new PriorityItem("Lia", 3);
+
+        var priorityQueue = new PriorityQueue();
+        priorityQueue.Enqueue(bob.Value, bob.Priority);
+        priorityQueue.Enqueue(tim.Value, tim.Priority);
+        priorityQueue.Enqueue(sue.Value, sue.Priority);
+        priorityQueue.Enqueue(joe.Value, joe.Priority);
+        priorityQueue.Enqueue(ana.Value, ana.Priority);
+        priorityQueue.Enqueue(lia.Value, lia.Priority);
+
+        PriorityItem[] expectedResult = [sue, lia, tim, ana, bob, joe];
+
+        int i = 0;
+        while (priorityQueue.Length > 0)
+        {
+            if (i >= expectedResult.Length)
+            {
+                Assert.Fail("Queue should have ran out of items by now.");
+            }
+
+            var item = priorityQueue.Dequeue();
+            Assert.AreEqual(expectedResult[i].Value, item);
+            i++;
+        }
+    }
+
+    [TestMethod]
+    // Scenario: Try to get the next person from an empty queue
+    // Expected Result: Exception should be thrown with appropriate error message.
+    // Defect(s) Found: 
+    public void TestPriorityQueue_4()
+    {
+        var priorityQueue = new PriorityQueue();
+
+        try
+        {
+            priorityQueue.Dequeue();
+            Assert.Fail("Exception should have been thrown.");
+        }
+        catch (InvalidOperationException e)
+        {
+            Assert.AreEqual("The queue is empty.", e.Message);
+        }
+        catch (AssertFailedException)
+        {
+            throw;
+        }
+        catch (Exception e)
+        {
+            Assert.Fail(
+                 string.Format("Unexpected exception of type {0} caught: {1}",
+                                e.GetType(), e.Message)
+            );
+        }
+    }
 }
