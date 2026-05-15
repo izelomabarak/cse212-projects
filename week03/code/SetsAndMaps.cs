@@ -21,8 +21,20 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        var wordsstorage = new HashSet<string>(words);
+        var pairs = new HashSet<string>();
+        foreach (string word in words)
+        {
+            var teoricalPair = $"{word[1]}{word[0]}";
+            wordsstorage.Remove(word);
+            if (wordsstorage.Contains(teoricalPair))
+            {
+                var newPair = $"{teoricalPair} & {word}";
+                pairs.Add(newPair);
+            }
+        }
+        string[] results = pairs.ToArray();
+        return results;
     }
 
     /// <summary>
@@ -42,7 +54,15 @@ public static class SetsAndMaps
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            if (degrees.ContainsKey(fields[3]))
+            {
+                int number = degrees[fields[3]];
+                degrees[fields[3]] = number + 1;
+            }
+            else
+            {
+                degrees.Add(fields[3], 1);
+            }
         }
 
         return degrees;
@@ -66,8 +86,43 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        var word1Upper = word1.ToUpper().Replace(" ", "");
+        var word2Upper = word2.ToUpper().Replace(" ", "");
+        if (word1Upper.Length != word2Upper.Length)
+        {
+            return false;
+        }
+        Dictionary<string, int> count = new Dictionary<string, int>();
+
+        foreach (var leter in word1Upper)
+        {
+            if (count.ContainsKey(leter.ToString()))
+            {
+                int number = count[leter.ToString()];
+                count[leter.ToString()] = number + 1;
+            }
+            else
+            {
+                count.Add(leter.ToString(), 1);
+            }
+        }
+        foreach (var leter in word2Upper)
+        {
+            if (count.ContainsKey(leter.ToString()))
+            {
+                int number = count[leter.ToString()];
+                count[leter.ToString()] = number - 1;
+                if (number <= 0)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     /// <summary>
