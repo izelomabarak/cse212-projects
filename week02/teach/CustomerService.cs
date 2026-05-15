@@ -11,19 +11,34 @@ public class CustomerService {
         // Test Cases
 
         // Test 1
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: Create a Customer Service Queue whit 0
+        // Expected Result: a Queue whit size of 10
         Console.WriteLine("Test 1");
+        var cs = new CustomerService(0);
+        Console.WriteLine(cs);
 
-        // Defect(s) Found: 
+        // Defect(s) Found: None
 
         Console.WriteLine("=================");
 
         // Test 2
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: Create a Customer Service Queue whit 3
+        // Expected Result: a Queue whit size of 3
         Console.WriteLine("Test 2");
+        var sc = new CustomerService(5);
+        Console.WriteLine(sc);
+        // Defect(s) Found: 
 
+        Console.WriteLine("=================");
+
+        // Test 3
+        // Scenario: Add a customer
+        // Expected Result: The customer is adet
+        Console.WriteLine("Test 3");
+        var sd = new CustomerService(5);
+        Console.WriteLine(sd);
+        sd.AddNewCustomer();
+        Console.WriteLine(sd);
         // Defect(s) Found: 
 
         Console.WriteLine("=================");
@@ -88,8 +103,8 @@ public class CustomerService {
     /// Dequeue the next customer and display the information.
     /// </summary>
     private void ServeCustomer() {
-        _queue.RemoveAt(0);
         var customer = _queue[0];
+        _queue.RemoveAt(0);
         Console.WriteLine(customer);
     }
 
